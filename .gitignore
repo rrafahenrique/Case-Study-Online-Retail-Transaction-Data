@@ -1,0 +1,7 @@
+#Ambiente Virtual
+.venv
+venv/
+
+#Utils
+__pycache__
+
