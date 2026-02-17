@@ -11,5 +11,5 @@ Os dados serão utilizados como base para aplicar, na prática, conceitos teóri
 
 ## Análise de RFM
 Inicialmente, o foco do projeto será a construção da análise RFM, uma metodologia amplamente utilizada no marketing para compreender o comportamento dos clientes e segmentá-los com base em seus padrões de compra.
-> Código Fonte: 
+> Código Fonte: [Parte I](https://github.com/rrafahenrique/Case-Study-Online-Retail-Transaction-Data/blob/master/PARTE%20I.ipynb)
 
