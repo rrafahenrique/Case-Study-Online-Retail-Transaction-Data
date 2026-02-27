@@ -95,7 +95,7 @@ def plot_vendas_mensais(df):
     # Estilo
     sns.set_theme(style="whitegrid", context="talk")
 
-    plt.figure(figsize=(14, 6))
+    plt.figure(figsize=(15, 5))
     ax = sns.lineplot(
         x=vendas_mes.index,
         y=vendas_mes.values,
@@ -130,13 +130,13 @@ def plot_vendas_ano(df):
 
     sns.set_theme(style="whitegrid")
 
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(15, 5))
     sns.barplot(
         x=vendas_por_mes.index,
         y=vendas_por_mes.values
     )
 
-    plt.title(f'Quantidade de Vendas por Mês do ano de 2011')
+    plt.title(f'Quantidade de Vendas por Mês do ano de 2011', fontsize=18, weight="bold")
     plt.xlabel('Mês')
     plt.ylabel('Quantidade Vendida')
 
