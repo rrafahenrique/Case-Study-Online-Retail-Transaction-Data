@@ -2,11 +2,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib.colors import LinearSegmentedColormap
 import seaborn as sns
 
 # Função que personaliza o método describe() do pandas 
 # É necessário instalar o pacote jinja2 (pip install jinja2)
-def descricão(df):
+def df_summary_report(df):
     """
     Descreve valores estatísticos da dataframe.
 
@@ -20,37 +21,48 @@ def descricão(df):
         Valores estatísticos e quantitativos estilizados.
     """
     resumo = pd.DataFrame({
-        'Coluna': df.columns,
-        'Tipo': df.dtypes.values,
-        'Quantidade de Dados Não Vazios': df.notna().sum().values,
-        'Quantidade de Dados Vazios': df.isna().sum().values,
-        'Valores Únicos': df.nunique(),
-        'Porcentagem de Valor Vazios (%)': (df.isna().mean() * 100).round(2).values
+        'Coluna': df.columns,            #Lista os nomes das colunas do DataFrame.
+        'Tipo': df.dtypes.values,        #Retorna o tipo de dado (dtype) de cada coluna.
+        'Quantidade de Dados Não Vazios': df.notna().sum().values,  #Conta a quantidade de valores não nulos por coluna.
+        'Quantidade de Dados Vazios': df.isna().sum().values,       #Conta a quantidade de valores nulos (NaN) por coluna.
+        'Valores Únicos': df.nunique().values,       #Conta a quantidade de valores únicos de cada coluna
+        'Porcentagem de Unicidade': ((df.nunique() / len(df)) * 100).round(2).values,    #Cardinalidade - baixa cardinalidade indica alta repetição; alta cardinalidade indica baixa repetição
+        'Porcentagem de Valor Vazios (%)': (df.isna().mean() * 100).round(2).values  #Calcula a porcentagem de valores nulos por coluna.
         
     })
 
+    # Gradiente vermelho elegante (BigMachine)
+    cmap_vazios = sns.light_palette("#BD2A2E", as_cmap=True)
+
+    # Gradiente azul técnico (Poseidon)
+    cmap_unicidade = sns.light_palette("#13678A", as_cmap=True)
+
     styled = (resumo.style
         .set_properties(**{
-            'background-color': "#0f010194", 
-            'border-color': 'black',
+            'background-color': "#0B1011",
+            'color': '#E0E0E0',  
+            'border-color': '#2F3D40',
             'text-align': 'center'
         })
-        .background_gradient(subset=['Porcentagem de Valor Vazios (%)'], cmap='Reds')
-        .bar(subset=['Quantidade de Dados Vazios'], color='#BE0804')
+        .background_gradient(subset=['Porcentagem de Valor Vazios (%)'], cmap=cmap_vazios, vmin=0, vmax=100)
+        .background_gradient(subset=['Porcentagem de Unicidade'], cmap=cmap_unicidade, vmin=0, vmax=100)
+        .bar(subset=['Quantidade de Dados Vazios'], color="#BD2A2E")
+        .format({'Porcentagem de Valor Vazios (%)': '{:.2f}', 'Porcentagem de Unicidade': '{:.2f}'})
         .set_table_styles([
             {
                 'selector': 'th',
                 'props': [
-                    ('background-color', '#0d253f'),
+                    ('background-color', "#0c2845"),
                     ('color', 'white'),
                     ('text-align', 'center'),
                     ('font-size', '12px')
                 ]
             }
         ])
+        
     )
     return styled
-#------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------
 def plot_vendas_mensais(df):
     """
     Plota vendas mensais agregadas ao longo do tempo.
@@ -131,21 +143,14 @@ def plot_vendas_ano(df):
     sns.despine()
     plt.show()
 #---------------------------------------------------------------------
-def plot_rfm_segmentos(df):
+def plot_rfm_segmentos(df, palette=None):
     """
     Plota a distribuição de clientes por segmentos RFM.
 
     Parâmetros:
     - df: DataFrame contendo os segmentos
+    - palettle: Paleta de cor customizada
     """
-
-    # Dicionário de cores personalizado
-    cores = {
-        "Bronze": "#CD7F32",
-        "Prata": "#C0C0C0",
-        "Ouro": "#FFD700",
-        "Platinum": "#8C8E90"
-    }
 
     # Contagem dos segmentos
     segment_counts = (
@@ -166,9 +171,6 @@ def plot_rfm_segmentos(df):
     # Ordenar respeitando a hierarquia definida
     segment_counts = segment_counts.sort_values("RFM_Segment")
 
-    # Estilo
-    sns.set(style="darkgrid")
-
     plt.figure(figsize=(10,5))
 
     sns.barplot(
@@ -177,7 +179,7 @@ def plot_rfm_segmentos(df):
         y="Count",
         hue="RFM_Segment",
         dodge=False,
-        palette=cores,
+        palette=palette[:4],
         legend=False
     )
 
@@ -188,12 +190,13 @@ def plot_rfm_segmentos(df):
     plt.tight_layout()
     plt.show()
 #----------------------------------------------------------------------------------
-def plot_segmentos_rfm(df):
+def plot_segmentos_rfm(df, palette=None):
     """
     Plota a distribuição dos segmentos RFM destacando um segmento específico.
 
     Parâmetros:
     - df: DataFrame com os segmentos
+    - palettle: Paleta de cor customizada
     """
 
     # Contagem ordenada
@@ -203,9 +206,6 @@ def plot_segmentos_rfm(df):
         .sort_index()
     )
 
-    # Criar paleta pastel base
-    base_palette = sns.color_palette("Paired", len(segment_counts))
-
     sns.set_theme(style="whitegrid")
 
     plt.figure(figsize=(12,5))
@@ -214,7 +214,7 @@ def plot_segmentos_rfm(df):
         x=segment_counts.index,
         y=segment_counts.values,
         hue=segment_counts.index,
-        palette=base_palette
+        palette=palette
     )
 
     plt.title("Comparando os Segmentos do RFM", fontsize=16, weight="bold")
@@ -226,12 +226,13 @@ def plot_segmentos_rfm(df):
     plt.tight_layout()
     plt.show()
 #----------------------------------------------------------------------------
-def plot_heatmap_correlacao_rfm(df):
+def plot_heatmap_correlacao_rfm(df, palette=None):
     """
     Plota a matriz de correlação dos scores RFM para um segmento específico.
 
     Parâmetros:
     - df: DataFrame com dados RFM
+    - palettle: Paleta de cor customizada
     """
 
     # Filtrar segmento
@@ -241,15 +242,16 @@ def plot_heatmap_correlacao_rfm(df):
     correlation_matrix = df_segmento[["Recency Score", "Frequency Score", "Monetary Score"]].corr()
 
     # Estilo
-    sns.set_theme(style="white")
+    custom_cmap = LinearSegmentedColormap.from_list("poseidon_cmap", palette)
 
-    plt.figure(figsize=(6, 5))
+    plt.figure(figsize=(10, 6))
 
     sns.heatmap(
         correlation_matrix,
         annot=True,
         fmt=".2f",
-        cmap="RdBu_r",
+        #cmap="RdBu_r",
+        cmap=custom_cmap,
         center=0,
         linewidths=0.5,
         cbar_kws={"label": "Correlação"}
