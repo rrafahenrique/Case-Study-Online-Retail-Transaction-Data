@@ -45,5 +45,5 @@ Após a segmentação inicial, foi implementado um modelo de clusterização uti
 
 Todas as análises foram acompanhadas de visualizações gráficas para facilitar a interpretação dos resultados e apoiar tomadas de decisão estratégicas.
 
-> Código Fonte: [main](https://github.com/rrafahenrique/Case-Study-Online-Retail-Transaction-Data/blob/master/PARTE%20I.ipynb)
+> Código Fonte: [main](https://github.com/rrafahenrique/Case-Study-Online-Retail-Transaction-Data/blob/master/main.ipynb)
 
