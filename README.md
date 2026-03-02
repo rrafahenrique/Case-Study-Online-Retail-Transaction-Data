@@ -1,4 +1,4 @@
-![Badge de Concluido](https://img.shields.io/badge/status-Em_Andamento-orange?style=for-the-badge)
+![Badge de Concluido](https://img.shields.io/badge/status-Concluído-green?style=for-the-badge)
 
 # Introdução
 Neste projeto de estudo de caso, analiso um conhecido conjunto de dados de vendas no varejo online. O dataset reúne informações detalhadas sobre transações, produtos e clientes, permitindo uma visão abrangente do comportamento de compra.
