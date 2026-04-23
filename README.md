@@ -1,6 +1,8 @@
-![Badge de Concluido](https://img.shields.io/badge/status-Concluído-green?style=for-the-badge)
+![Badge-Concluido](https://img.shields.io/badge/Status-Conluído-green) ![Bagde-Version](https://img.shields.io/badge/Version-2.0-blue)
 
-# Introdução
+# Análise de RFM e Clusterização 
+
+## Introdução
 Neste projeto de estudo de caso, analiso um conhecido conjunto de dados de vendas no varejo online. O dataset reúne informações detalhadas sobre transações, produtos e clientes, permitindo uma visão abrangente do comportamento de compra.
 
 > [!NOTE]
@@ -8,7 +10,7 @@ Neste projeto de estudo de caso, analiso um conhecido conjunto de dados de venda
 
 Os dados serão utilizados como base para aplicar, na prática, conceitos teóricos aprendidos em análise de dados. Embora o próprio Kaggle sugira diferentes abordagens para exploração desse conjunto, neste projeto o foco estará na segmentação de clientes e na análise de vendas, com ênfase na aplicação do modelo RFM e posteriormente na construção de clusters.
 
-# Roadmap do Projeto
+## Roadmap do Projeto
 Este projeto teve como objetivo analisar o comportamento de clientes a partir de um dataset, aplicando técnicas de segmentação para identificar padrões de consumo e apoiar estratégias de marketing direcionadas.
 
 1. **Entendimento e Exploração dos Dados**
@@ -37,9 +39,13 @@ Foi aplicada a metodologia RFM (Recency, Frequency e Monetary), técnica amplame
 - Clientes em risco de inatividade
 - Segmentos com potencial de retenção
 
+![rfm](img/rfm_categoria.png)
+
 4. **Clusterização com Machine Learning**
 
 Após a segmentação inicial, foi implementado um modelo de clusterização utilizando algoritmos de Machine Learning, com o objetivo de agrupar clientes com características semelhantes. Para definição do número ideal de clusters, foi utilizado o Método do Cotovelo (Elbow Method), permitindo identificar o ponto de equilíbrio entre complexidade do modelo e variabilidade explicada. Essa etapa possibilitou uma segmentação orientada por dados, complementando a análise RFM manual.
+
+![cluster](img/cluster.png)
 
 5. **Visualização e Interpretação dos Resultados**
 
